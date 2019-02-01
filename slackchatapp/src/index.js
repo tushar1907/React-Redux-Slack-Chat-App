@@ -8,6 +8,7 @@ import * as serviceWorker from './serviceWorker';
 
 import { BrowserRouter as Router, Switch, Route} from 'react-router-dom';   
 
+import 'semantic-ui-css/semantic.min.css';
 
 const Root = () =>(
     <Router>    
