@@ -12,7 +12,7 @@ class Register extends React.Component{
     }
     render(){
         return(
-            <Grid textAlign='center' verticalAlign='middle'>
+            <Grid textAlign='center' verticalAlign='middle' className="app">
                 <Grid.Column style={{ maxWidth:500 }}>
                     <Header as='h2' icon color='orange' textAlign='center'>
                         <Icon name='puzzle piece' color='orange' />
