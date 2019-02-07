@@ -22,9 +22,9 @@ class Register extends React.Component{
         event.preventDefault();
         firebase
         .auth()
-        .creatUserWithEmailPassword(this.state.email, this.state.password)
+        .createUserWithEmailAndPassword(this.state.email, this.state.password)
         .then( createUser => {
-            console.log('User Created');
+            console.log(createUser);
         })
         .catch( err =>{
             console.error(err); 
