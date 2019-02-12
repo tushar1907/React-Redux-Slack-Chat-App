@@ -6,6 +6,8 @@ import { Link } from 'react-router-dom';
 
 import firebase from '../../FireBase'
 
+import md5 from 'md5';
+
 class Register extends React.Component{
     state = {
         username: '',
@@ -13,7 +15,8 @@ class Register extends React.Component{
         password: '',
         passwordConfirmation: '',
         errors: [],
-        loading: false
+        loading: false,
+        userRef: firebase.database().ref('users')
     }
 
     isFormValid = () =>{
@@ -55,24 +58,40 @@ class Register extends React.Component{
 
     handleSubmit = event =>{
         if(this.isFormValid()){
-            this.setState({errors:[], loading: true})
-            event.preventDefault();
-            firebase
-            .auth()
-            .createUserWithEmailAndPassword(this.state.email, this.state.password)
-            .then( createUser => {
-                console.log(createUser);
-                this.setState({loading: false, username: '',
-                email: '',
-                password: '',
-                passwordConfirmation: ''})
-            })
-            .catch( err =>{
+            this.setState({errors:[], loading: true})     
+            firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).then((user) =>{
+                console.log(user)
+                user.updateProfile({
+                            displayName: this.state.username,
+                            photoURL: `http://gravatar.com/avatar/${md5(user.email)}?d=identicon`
+                    }).then(()=>{
+                        this.saveUser(user).then(()=>{
+                            console.log('user saved');
+                        })
+                        this.setState({loading: false, username: '',
+                        email: '',
+                        password: '',
+                        passwordConfirmation: ''})
+                        })
+                        .catch( err =>{
+                            console.log(err)
+                            this.setState({errors: this.state.errors.concat(err), loading: false})
+                        }) 
+                
+            }, function(err) {
                 console.error(err); 
                 this.setState({errors: this.state.errors.concat(err), loading: false})
-            })
+            });
         }        
     }
+
+    saveUser = createdUser =>{
+        return this.state.userRef.child(createdUser.uid).set({
+            name: createdUser.displayName,
+            avatar: createdUser.photoURL,
+        })
+    }
+
 
     handleInputError(errors, inputName){
 
