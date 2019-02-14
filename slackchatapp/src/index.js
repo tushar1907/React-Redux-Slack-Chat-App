@@ -11,19 +11,31 @@ import { BrowserRouter as Router, Switch, Route, withRouter} from 'react-router-
 
 import 'semantic-ui-css/semantic.min.css';
 
+import {createStore} from 'redux';
+
+import {Provider, connect} from 'react-redux';
+
+import { composeWithDevTools} from 'redux-devtools-extension';
+import rootReducers from './reducers';
+
+import {setUser } from './action'
+
+const store = createStore(rootReducers, composeWithDevTools());
+
 class Root extends React.Component{
 
-    componentWillUnmount = () => {
+    componentDidMount = () => {
       firebase.auth().onAuthStateChanged(user=>{
           if(user){
-              this.props.history.push("/");
+              this.props.setUser(user)
+              this.props.history.push("/"); 
           }
       })
     };
     
     render(){
       return  (
-            
+           
                 <Switch>
                     <Route exact path='/' component={App}/>
                     <Route path='/login' component={Login}/>
@@ -34,10 +46,10 @@ class Root extends React.Component{
     }
 }
     
-const RootWithAuth = withRouter(Root);
+const RootWithAuth = withRouter(connect(null, { setUser })(Root));
 
 
-ReactDOM.render(<Router><RootWithAuth/></Router>, document.getElementById('root'));
+ReactDOM.render(<Provider store={store}><Router><RootWithAuth/></Router></Provider>, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
