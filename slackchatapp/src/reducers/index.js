@@ -4,7 +4,7 @@ import {combineReducers} from 'redux'
 
 const intialUserState = {
     currentUser: null,
-    isLoading: false
+    isLoading: true
 }
 
 const user_reducers = (state = intialUserState,action)=>{
@@ -15,7 +15,7 @@ const user_reducers = (state = intialUserState,action)=>{
                 isLoading: false
             }
         default:
-            return intialUserState;
+            return state;
     }
 }
 
