@@ -20,7 +20,7 @@ import { composeWithDevTools} from 'redux-devtools-extension';
 
 import rootReducers from './reducers';
 
-import {setUser } from './action';
+import {setUser, clearUser } from './action';
 
 
 
@@ -34,6 +34,9 @@ class Root extends React.Component{
           if(user){
               this.props.setUser(user)
               this.props.history.push("/"); 
+          } else {
+            this.props.history.push("/login");
+            this.clearUser();
           }
       })
     };
@@ -55,7 +58,7 @@ const mapStateFromProps = state =>({
     isLoading: state.user.isLoading
 })
     
-const RootWithAuth = withRouter(connect(mapStateFromProps, { setUser })(Root));
+const RootWithAuth = withRouter(connect(mapStateFromProps, { setUser, clearUser })(Root));
 
 
 ReactDOM.render(<Provider store={store}><Router><RootWithAuth/></Router></Provider>, document.getElementById('root'));

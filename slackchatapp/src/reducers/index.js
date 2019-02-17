@@ -9,10 +9,17 @@ const intialUserState = {
 
 const user_reducers = (state = intialUserState,action)=>{
     switch(action.type){
+
         case actionTypes.Set_User:
             return{
                 currentUser: action.payload.currentUser,
                 isLoading: false
+            }
+        
+        case actionTypes.Clear_User:
+            return{
+               ...intialUserState,
+               isLoading: false
             }
         default:
             return state;
