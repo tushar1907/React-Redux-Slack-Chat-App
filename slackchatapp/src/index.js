@@ -29,14 +29,14 @@ const store = createStore(rootReducers, composeWithDevTools());
 class Root extends React.Component{
 
     componentDidMount = () => {
-        console.log(this.props.isLoading )
+    //console.log(this.props.isLoading )
       firebase.auth().onAuthStateChanged(user=>{
           if(user){
               this.props.setUser(user)
               this.props.history.push("/"); 
           } else {
             this.props.history.push("/login");
-            this.clearUser();
+            this.props. clearUser();
           }
       })
     };
