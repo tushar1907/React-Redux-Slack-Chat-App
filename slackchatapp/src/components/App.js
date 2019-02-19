@@ -5,9 +5,9 @@ import ColorPanel from './ColorPanel/ColorPanel';
 import SidePanel from './SidePanel/SidePanel';
 import Messages from './Messages/Messages';
 import MetaPanel from './MetaPanel/MetaPanel';
-import {connect } from 'react-redux';
+import { connect } from 'react-redux';
 
-const App = ({currentUser}) =>(
+const App = ({ currentUser }) =>(
   <Grid columns='equal' className='app' style={{ background: '#eee' }}>
 
     <ColorPanel/>

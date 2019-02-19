@@ -66,5 +66,4 @@ class UserPanel extends Component {
 }
 
 
-
 export default UserPanel;
