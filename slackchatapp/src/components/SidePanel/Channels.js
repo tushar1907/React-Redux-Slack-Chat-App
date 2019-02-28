@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import { Menu, MenuItem, Icon, Modal, Form, Input, Button } from 'semantic-ui-react';
 import firebase from '../../FireBase';
+import { connect } from 'react-redux';
+import { setCurrrentChannel } from '../../action'
 
-export default class Channels extends Component {
+class Channels extends React.Component {
 
     state = {
         user: this.props.currentUser,
@@ -20,8 +22,7 @@ export default class Channels extends Component {
     addListeners = () =>{
       let loadedChannels = [];
       this.state.channelRef.on('child_added', snap => {
-        loadedChannels.push(snap.val())
-        console.log(loadedChannels)
+        loadedChannels.push(snap.val())        
         this.setState({channels: loadedChannels});
       })
     }
@@ -53,7 +54,7 @@ export default class Channels extends Component {
         createdBy:{
           name: user.displayName,
           avatar: user.photoURL
-        }
+        } 
       };
 
         channelRef  
@@ -67,25 +68,26 @@ export default class Channels extends Component {
           .catch(err=>{
             console.error(err)
           })
-
-
       } 
 
-
-    displayChannels= channels=>{
-      channels.length > 0 &&
-        channels.map(channel =>(
-          <Menu.Item  
-            key={channel.id} 
-            onClick={()=> console.log(channel)} 
-            name={channel.name} 
-            style={{ opacity: 0.7 }}
-            >
-           #{channel.name}
-          </Menu.Item>
-        ))
-
+    changeChannel = channel =>{
+      this.props.setCurrrentChannel(channel)
     }
+      
+    
+
+    displayChannels = channels =>
+    channels.length > 0 &&
+    channels.map(channel => (
+      <Menu.Item
+        key={channel.id}
+        onClick={() => this.changeChannel(channel)}
+        name={channel.name}
+        style={{ opacity: 0.7 }}
+      >
+        # {channel.name}
+      </Menu.Item>
+    ));
 
 
     isFormValid = ({channelName, channelDetails}) => channelName && channelDetails;
@@ -97,14 +99,15 @@ export default class Channels extends Component {
       <React.Fragment>
       <Menu.Menu style={{ paddingBottom: '2em'}}>
 
-      <MenuItem>
-      <span>
-          <Icon name='exchange' /> CHANNELS
-      </span>
-      ({channels.length}) <Icon name='add' onClick={this.openModal}/>
-      </MenuItem>
+          <MenuItem>
+            <span>
+                <Icon name='exchange' /> CHANNELS
+            </span>
+            ({channels.length}) <Icon name='add' onClick={this.openModal}/>
+          </MenuItem>
 
-       {this.displayChannels(channels)}
+          {this.displayChannels(channels)}
+          
       </Menu.Menu>
 
       <Modal basic open={modal} onClose={this.closeModal}>
@@ -138,3 +141,6 @@ export default class Channels extends Component {
     )
   }
 }
+
+
+export default connect(null, {setCurrrentChannel})(Channels)
