@@ -5,6 +5,7 @@
   "dependencies": {
     "firebase": "4.8.0",
     "md5": "^2.2.1",
+    "mime-types": "^2.1.22",
     "moment": "^2.24.0",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
