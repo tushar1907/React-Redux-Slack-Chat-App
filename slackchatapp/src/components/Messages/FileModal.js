@@ -5,7 +5,7 @@ import { Modal, Input, Button, Icon } from "semantic-ui-react";
 class FileModal extends React.Component {
   state = {
     file: null,
-    authorized: ["image/jpeg", "image/png"]
+    authorized: ["image/jpeg", "image/png", "application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document","application/pdf"]
   };
 
   addFile = event => {
@@ -25,7 +25,7 @@ class FileModal extends React.Component {
         uploadFile(file, metadata);
         closeModal();
         this.clearFile();
-      }
+      }else console.log("wrong format");
     }
   };
 
