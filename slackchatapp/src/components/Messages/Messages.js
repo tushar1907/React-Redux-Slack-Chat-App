@@ -48,6 +48,8 @@ class Messages extends React.Component {
           user={this.state.user}
         />
       ));
+
+      idProgressBarVisible = percen
   
     render() {
       const { messagesRef, messages, channel, user } = this.state;
@@ -57,7 +59,7 @@ class Messages extends React.Component {
           <MessagesHeader />
   
           <Segment>
-            <Comment.Group className="messages">
+            <Comment.Group className={progressBar ? 'messages_progress':'messages'}>
               {this.displayMessages(messages)}
             </Comment.Group>
           </Segment>
