@@ -13,7 +13,8 @@ class Messages extends React.Component {
       messages: [],
       messagesLoading: true,
       channel: this.props.currentChannel,
-      user: this.props.currentUser
+      user: this.props.currentUser,
+      progressBar: false
     };
   
     componentDidMount() {
@@ -49,10 +50,15 @@ class Messages extends React.Component {
         />
       ));
 
-      idProgressBarVisible = percen
+      isProgressBarVisible = percent =>{
+          if( percent > 0){
+              this.setState({progressBar: true});
+
+          }
+      }
   
     render() {
-      const { messagesRef, messages, channel, user } = this.state;
+      const { messagesRef, messages, channel, user, progressBar } = this.state;
   
       return (
         <React.Fragment>
@@ -68,6 +74,7 @@ class Messages extends React.Component {
             messagesRef={messagesRef}
             currentChannel={channel}
             currentUser={user}
+            isProgressBarVisible={this.isProgressBarVisible}
           />
         </React.Fragment>
       );
