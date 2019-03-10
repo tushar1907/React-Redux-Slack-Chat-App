@@ -24,3 +24,12 @@ export const setCurrrentChannel = (channel) =>{
         }
     }
 }
+
+export const setPrivateChannel = (isPrivateChannel)=>{
+    return {
+        type: actionTypes.Set_Private_Channel,
+        payload: {
+            isPrivateChannel
+        }
+    }
+}

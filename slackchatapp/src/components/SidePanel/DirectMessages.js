@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
 
+import {setCurrrentChannel} from '../../action';
+import {setPrivateChannel} from '../../action';
+
+
 import {Menu, MenuItem, Icon} from 'semantic-ui-react'
 
 
@@ -72,6 +76,26 @@ class DirectMessages extends Component {
         this.setState({users: updatedUsers});
 
     }
+
+    changeChannel = user =>{
+        const channelId = this.getChannelId(user.uid)
+
+        const channelData = {
+            id: channelId,
+            name: user.name
+        }
+
+        this.props.setCurrrentChannel(channelData);
+        this.props.setPrivateChannel(true);
+    }
+
+    getChannelId = id =>{
+        const currentUserId = this.state.user.uid;
+        return id < currentUserId ? 
+        `${id}/${currentUserId}` :
+        `${currentUserId}/${id}`
+
+    }
   render() {
         const {users} = this.state;
     return (
@@ -85,7 +109,7 @@ class DirectMessages extends Component {
         {users.map(user => (
           <Menu.Item
             key={user.uid}
-            onClick={() => console.log(user)}
+            onClick={() => this.changeChannel(user)}
             style={{ opacity: 0.7, fontStyle: "italic" }}
           >
             <Icon
@@ -101,4 +125,4 @@ class DirectMessages extends Component {
 }
 
 
-export default DirectMessages;
+export default connect(null,{setCurrrentChannel,setPrivateChannel})(DirectMessages);
