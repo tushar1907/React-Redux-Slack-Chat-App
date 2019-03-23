@@ -1,12 +1,11 @@
 import React from "react";
 import mime from "mime-types";
-import { Modal, Input, Button, Icon, Message } from "semantic-ui-react";
+import { Modal, Input, Button, Icon } from "semantic-ui-react";
 
 class FileModal extends React.Component {
   state = {
     file: null,
-    authorized: ["image/jpeg", "image/png"],
-    error: ""
+    authorized: ["image/jpeg", "image/png"]
   };
 
   addFile = event => {
@@ -26,9 +25,6 @@ class FileModal extends React.Component {
         uploadFile(file, metadata);
         closeModal();
         this.clearFile();
-        this.setState({ error: "" });
-      }else{
-        this.setState({error: "File format should be jpg/jpeg"})
       }
     }
   };
@@ -36,7 +32,7 @@ class FileModal extends React.Component {
   isAuthorized = filename =>
     this.state.authorized.includes(mime.lookup(filename));
 
-  clearFile = () => this.setState({ file: null});
+  clearFile = () => this.setState({ file: null });
 
   render() {
     const { modal, closeModal } = this.props;
@@ -52,9 +48,6 @@ class FileModal extends React.Component {
             name="file"
             type="file"
           />
-            <Message error>
-                {this.state.error === "" ? "": this.state.error}
-            </Message>
         </Modal.Content>
         <Modal.Actions>
           <Button onClick={this.sendFile} color="green" inverted>
