@@ -1,213 +1,152 @@
-import React from "react";
-import firebase from "../../firebase";
-import md5 from "md5";
-import {
-  Grid,
-  Form,
-  Segment,
-  Button,
-  Header,
-  Message,
-  Icon
-} from "semantic-ui-react";
-import { Link } from "react-router-dom";
+import React from 'react';
 
-class Register extends React.Component {
-  state = {
-    username: "",
-    email: "",
-    password: "",
-    passwordConfirmation: "",
-    errors: [],
-    loading: false,
-    usersRef: firebase.database().ref("users")
-  };
+import { Grid, From, Segment, Button, Header, Message, Icon, Form } from 'semantic-ui-react';
 
-  isFormValid = () => {
-    let errors = [];
-    let error;
+import { Link } from 'react-router-dom';
 
-    if (this.isFormEmpty(this.state)) {
-      error = { message: "Fill in all fields" };
-      this.setState({ errors: errors.concat(error) });
-      return false;
-    } else if (!this.isPasswordValid(this.state)) {
-      error = { message: "Password is invalid" };
-      this.setState({ errors: errors.concat(error) });
-      return false;
-    } else {
-      return true;
+import firebase from '../../FireBase'
+
+import md5 from 'md5';
+
+class Register extends React.Component{
+    state = {
+        username: '',
+        email: '',
+        password: '',
+        passwordConfirmation: '',
+        errors: [],
+        loading: false,
+        userRef: firebase.database().ref('users')
     }
-  };
 
-  isFormEmpty = ({ username, email, password, passwordConfirmation }) => {
-    return (
-      !username.length ||
-      !email.length ||
-      !password.length ||
-      !passwordConfirmation.length
-    );
-  };
+    isFormValid = () =>{
+        let errors = [];
+        let error;
 
-  isPasswordValid = ({ password, passwordConfirmation }) => {
-    if (password.length < 6 || passwordConfirmation.length < 6) {
-      return false;
-    } else if (password !== passwordConfirmation) {
-      return false;
-    } else {
-      return true;
+
+        if(this.isFormEmpty(this.state)){
+            error = {message: 'Fill in all fields'}
+            this.setState({errors: errors.concat(error)})
+            return false;
+        }else if(!this.isPasswordValid(this.state)){
+             error = {message: 'Password is invalid'}
+             this.setState({errors: errors.concat(error)})
+             return false;
+        }else{
+            return true;
+        }
     }
-  };
 
-  displayErrors = errors =>
-    errors.map((error, i) => <p key={i}>{error.message}</p>);
+    isPasswordValid = ({password, passwordConfirmation}) => {
+        if(password.length < 6 || passwordConfirmation < 6){
+            return false;
+        }else if(password !== passwordConfirmation){
+            return false;
+        }else{
+            return true;
+        }
+    }
 
-  handleChange = event => {
-    this.setState({ [event.target.name]: event.target.value });
-  };
+    isFormEmpty = ({username, email, password, passwordConfirmation }) =>{
+        return !username.length || !email.length || !password.length || !passwordConfirmation.length;
+    }
 
-  handleSubmit = event => {
-    event.preventDefault();
-    if (this.isFormValid()) {
-      this.setState({ errors: [], loading: true });
-      firebase
-        .auth()
-        .createUserWithEmailAndPassword(this.state.email, this.state.password)
-        .then(createdUser => {
-          console.log(createdUser);
-          createdUser.user
-            .updateProfile({
-              displayName: this.state.username,
-              photoURL: `http://gravatar.com/avatar/${md5(
-                createdUser.user.email
-              )}?d=identicon`
-            })
-            .then(() => {
-              this.saveUser(createdUser).then(() => {
-                console.log("user saved");
-              });
-            })
-            .catch(err => {
-              console.error(err);
-              this.setState({
-                errors: this.state.errors.concat(err),
-                loading: false
-              });
+    displayErrors = errors => errors.map((error, i) => <p key={i}>{error.message}</p>)
+    handleChange = event =>{
+        this.setState({ [event.target.name]: event.target.value })
+    }
+
+    handleSubmit = event =>{
+        event.preventDefault();
+        if(this.isFormValid()){
+            this.setState({errors:[], loading: true})     
+            firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).then((user) =>{
+                console.log(user)
+                user.updateProfile({
+                            displayName: this.state.username,
+                            photoURL: `http://gravatar.com/avatar/${md5(user.email)}?d=identicon`
+                    }).then(()=>{
+                        this.saveUser(user).then(()=>{
+                            console.log('user saved');
+                        })
+                        this.setState({loading: false, username: '',
+                        email: '',
+                        password: '',
+                        passwordConfirmation: ''})
+                        })
+                        .catch( err =>{
+                            console.log(err)
+                            this.setState({errors: this.state.errors.concat(err), loading: false})
+                        }) 
+                
+            }, function(err) {
+                console.error(err); 
+                this.setState({errors: this.state.errors.concat(err), loading: false})
             });
-        })
-        .catch(err => {
-          console.error(err);
-          this.setState({
-            errors: this.state.errors.concat(err),
-            loading: false
-          });
-        });
+        }        
     }
-  };
 
-  saveUser = createdUser => {
-    return this.state.usersRef.child(createdUser.user.uid).set({
-      name: createdUser.user.displayName,
-      avatar: createdUser.user.photoURL
-    });
-  };
+    saveUser = createdUser =>{
+        return this.state.userRef.child(createdUser.uid).set({
+            name: createdUser.displayName,
+            avatar: createdUser.photoURL,
+        })
+    }
 
-  handleInputError = (errors, inputName) => {
-    return errors.some(error => error.message.toLowerCase().includes(inputName))
-      ? "error"
-      : "";
-  };
 
-  render() {
-    const {
-      username,
-      email,
-      password,
-      passwordConfirmation,
-      errors,
-      loading
-    } = this.state;
+    handleInputError(errors, inputName){
 
-    return (
-      <Grid textAlign="center" verticalAlign="middle" className="app">
-        <Grid.Column style={{ maxWidth: 450 }}>
-          <Header as="h1" icon color="orange" textAlign="center">
-            <Icon name="puzzle piece" color="orange" />
-            Register for DevChat
-          </Header>
-          <Form onSubmit={this.handleSubmit} size="large">
-            <Segment stacked>
-              <Form.Input
-                fluid
-                name="username"
-                icon="user"
-                iconPosition="left"
-                placeholder="Username"
-                onChange={this.handleChange}
-                value={username}
-                type="text"
-              />
+       return errors.some(error => 
+        error.message.toLowerCase().includes(inputName)
+        ) 
+        ? 'error' 
+        :''
 
-              <Form.Input
-                fluid
-                name="email"
-                icon="mail"
-                iconPosition="left"
-                placeholder="Email Address"
-                onChange={this.handleChange}
-                value={email}
-                className={this.handleInputError(errors, "email")}
-                type="email"
-              />
+    }
+    render(){
+        const { username, email, password, passwordConfirmation, errors, loading } = this.state;
+        return(
+            <Grid textAlign='center' verticalAlign='middle' className="app">
+                <Grid.Column style={{ maxWidth:500 }}>
+                    <Header as='h1' icon color='blue' textAlign='center'>
+                        <Icon name='tasks' color='blue' />
+                        USER REGISTRATION
+                    </Header>
+                    <Form onSubmit={this.handleSubmit} size='large'>
+                        <Segment stacked>
 
-              <Form.Input
-                fluid
-                name="password"
-                icon="lock"
-                iconPosition="left"
-                placeholder="Password"
-                onChange={this.handleChange}
-                value={password}
-                className={this.handleInputError(errors, "password")}
-                type="password"
-              />
+                            <Form.Input fluid name='username' icon='user' iconPosition='left' placeholder='Username' 
+                            onChange={this.handleChange} type='text' value={username}
+                            className={this.handleInputError(errors, 'username')}/>  
+                            
+                            <Form.Input fluid name='email' icon='mail' iconPosition='left' placeholder='Email' 
+                            onChange={this.handleChange} type='email' value={email}
+                            className={this.handleInputError(errors, 'email')}/>  
 
-              <Form.Input
-                fluid
-                name="passwordConfirmation"
-                icon="repeat"
-                iconPosition="left"
-                placeholder="Password Confirmation"
-                onChange={this.handleChange}
-                value={passwordConfirmation}
-                className={this.handleInputError(errors, "password")}
-                type="password"
-              />
+                            <Form.Input fluid name='password' icon='lock' iconPosition='left' placeholder='Password' 
+                            onChange={this.handleChange} type='password' value={password}
+                            className={this.handleInputError(errors, 'password')}/>  
 
-              <Button
-                disabled={loading}
-                className={loading ? "loading" : ""}
-                color="orange"
-                fluid
-                size="large"
-              >
-                Submit
-              </Button>
-            </Segment>
-          </Form>
-          {errors.length > 0 && (
-            <Message error>
-              <h3>Error</h3>
-              {this.displayErrors(errors)}
-            </Message>
-          )}
-          <Message>
-            Already a user? <Link to="/login">Login</Link>
-          </Message>
-        </Grid.Column>
-      </Grid>
-    );
-  }
+                            <Form.Input fluid name='passwordConfirmation' icon='repeat' iconPosition='left' placeholder='Password Confirmation' 
+                            onChange={this.handleChange} type='password' value={passwordConfirmation}
+                            className={this.handleInputError(errors, 'password')}/>  
+
+                            <Button disabled={loading} className={loading ? 'loading':''} color='blue' fluid size='large'>Submit</Button>
+                        </Segment>
+                    </Form>
+                    {errors.length > 0 && (
+                        <Message error>
+                        <h3>
+                            Error
+                        </h3>
+                        {this.displayErrors(errors)}
+                        </Message>
+                    )}
+                    <Message>Already a user?<Link to='/login'> Login here </Link></Message>
+                </Grid.Column>
+            </Grid>
+        )
+    }
 }
 
 export default Register;
