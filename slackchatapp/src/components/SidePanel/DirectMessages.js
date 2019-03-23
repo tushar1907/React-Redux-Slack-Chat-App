@@ -32,7 +32,7 @@ class DirectMessages extends Component {
     addListeners = currentUserUid =>{
         let loadedUsers = []
         this.state.usersRef.on('child_added',snap => {
-            if(currentUserUid != snap.key){
+            if(currentUserUid !== snap.key){
                 let user = snap.val();
                 user['uid']= snap.key;
                 user['status']= 'offline';
