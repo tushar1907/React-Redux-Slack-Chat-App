@@ -1,68 +1,50 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# A Slack Chat Application
 
-## Available Scripts
+## Application Description
 
-In the project directory, you can run:
+This is a chat application which works for students for communicating theie ideas and sharing them in a platform with discussions and further geeting feedbacks to it.
 
-### `npm start`
+Additional functionality include:
+1. Login and  Registeration of the user with Firebase Authentication library
+2. Sending direct messages to the the users on the portals
+3. Making channels ont he playform such that they can make a group and chat with their team.
+4. Notification if there is a new message in the channel or a direct message from a user.
+5. Searching functionality for the Messages if they want ot refer old messages.
+6. FLagging the chat window or the messages for easy accessibility for further use.
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+## Following are the steps to setup and run the application.
 
-### `npm test`
+### Installation and Running
+1. You need to install **node.js** and **npm** installed on your system. Once installed, you can check the versions using the below commands
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```sh
+node -v
+npm -v
+```
+Links for reference:
+* [install node.js](https://nodejs.org/en/download/)
 
-### `npm run build`
+2. Further clone this repository and install all the necessary packages required to run the application.
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```sh
+https://github.com/tushar1907/React-Redux-Slack-Chat-App.git
+npm install
+```
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+3. Run the react application
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```sh
+npm start
+```
 
-### `npm run eject`
+4. Open your browser and go to [http://localhost:3000/](http://localhost:3000/)
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Technologies Used and thier Purpose
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+* React -> A framework to implement all the components and screens for the application.
+* Redux -> A state management tool for maintaining a global state b/w all the components of the application.
+* Firebase -> A fully dunctional ready to use Authentication, Database, Deployment andStorage tool implemented with al the functionalities.
+* HTML5 -> used to render the data coming from the database on to the browser.
+* CSS3 -> Giving styles to some of the pages of the components.
+* Semantic-ui -> A styling framework to provide all the styling and tags.
