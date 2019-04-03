@@ -12,11 +12,11 @@ This application utilizes one of the more renowned frameworks of JavaScript, Rea
 Please find the application screenshots [here](https://github.com/tushar1907/React-Redux-Slack-Chat-App/tree/master/Application%20Screenshots)
 
 ### Additional functionality:
-1. Login and  Registration of the user with Firebase Authentication library
+1. Login and Registration of the user with Firebase Authentication library.
 2. Sending direct messages to the users on the portal.
 3. Making channels on the platform such that students can make a group and chat with their team.
-4. Notification if there is a new message in the channel or a direct message from a user.
-5. Searching functionality for the Messages if they want to refer old messages.
+4. Notify the user if there is a new message in the channel or a direct message from another user.
+5. Searching functionality for the messages if users want to refer old messages.
 6. Flagging the chat window or the messages for easy accessibility for further use.
 7. Uploading documents and images in the groups and direct messages is also one of the usp's of this project as it is critically important for the communication.
 
@@ -53,6 +53,6 @@ npm start
 * React -> A framework to implement all the components and screens for the application.
 * Redux -> A state management tool for maintaining a global state b/w all the components of the application.
 * Firebase -> A fully functional ready to use Authentication, Database, Deployment and Storage tool implemented with all the functionalities.
-* HTML5 -> used to render the data coming from the database on to the browser.
+* HTML5 -> Used to render the data coming from the database on to the browser.
 * CSS3 -> Giving styles to some of the pages of the components.
 * Semantic-ui -> A styling framework to provide all the styling and tags.
